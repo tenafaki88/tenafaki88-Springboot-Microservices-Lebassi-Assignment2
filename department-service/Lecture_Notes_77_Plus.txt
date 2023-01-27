@@ -1,0 +1,743 @@
+77. DepartmentService - Configure MySQL Database
+Let's go ahead and let's configure this database in our Spring boot project.
+So go to IntelliJ idea and go to application.properties file.
+
+And here let's type the properties spring.datasource.url
+Well, here we are going to configure the JDBC URL to connect to the MySQL database, just type JDBC:
+spring.datasource.url = jdbc:mysql://localhost:3306/department_db
+
+Well, we are connecting our Spring boot application with MySQL database which is installed locally.
+
+That's why localhost.
+But if your MySQL database is located in different machine or in a cloud, then you have to give
+hostname or IP address of that machine and then followed by 3306 is the default port for MySQL server
+and then followed by the database name.
+
+Well, we have given the database name as department_db.
+So let me copy and paste it over here.
+spring.datasource.url = jdbc:mysql://localhost:3306/department_db
+
+Okay.
+Now, we have configured JDBC URL to connect our Spring boot application with MySQL database.
+
+Next, let's go ahead and let's configure MySQL database username and password.
+So here just type spring.datasource.username=root
+And similarly, let's configure the password.
+Spring.datasource.password
+Well, in my case, my MySQL username is root and password is Mysql@123
+
+but make sure that whatever the database username and password that you have given while MySQL installation that
+username and password you have to give over here.
+
+Next, let's go ahead and let's configure couple of hibernate properties like we need to configure, hibernate
+Dialect and we'll also configure one of the Hibernate property that we can use to generate the tables
+automatically.
+
+So here let me type spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL8Dialect
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect
+
+Well, basically we need to configure the MySQLDialect because hibernate uses this MySQLDialect to create
+appropriate SQL statements with respect to that database.
+
+For example, in our case we are using MySQL database so hibernate will use this dialect to create
+appropriate SQL statements with respect to MySQL database.
+
+Next, let's go ahead.
+
+Next, configure one more Hibernate property that is DDL Auto property.
+Let's type the property spring.jpa.hibernate.ddl-auto=update
+
+Well, this hibernate property is pretty useful because this property tells hibernate that create the
+database tables automatically
+If there are JPA entities present in a Spring boot project, we don't have to manually create the database
+tables.
+
+Hibernate will automatically create a database tables whenever we set this property in application dot
+properties file.
+
+Now we have configured MySQL details in our Spring boot project next.
+
+79. DepartmentService - Build Save Department REST API
+Hi, everyone.
+
+Welcome back.
+
+In this lecture, we're going to build save department REST API in a department service project.
+
+Let's go to an IntelliJ idea.
+
+And if we can see the three layer architecture, a controller layer depends on service layer and service
+
+layer
+
+depends on a repository layer
+
+Right.
+
+So before developing controller layer, we have to implement service layer.
+
+So before that, let's first create one DepartmentDto class.
+
+Well, we want to use a DepartmentDto class as a response for REST API, right?
+
+Hence let's first create a DepartmentDto class.
+
+So go to a base package and let's quickly create a new package and let's call it DTO.
+
+And within a dto package, let's quickly create a class and let's give name as DepartmentDto
+
+perfect.
+
+Next, let's go ahead and let's define the instance variables for this class So let's say private long ID and
+
+then private string department name and then private string department description.
+
+This should be private.
+
+Next, private String department code
+
+Perfect.
+
+Next,
+
+Let's go ahead and let's use a Lombok annotations to automatically generate a getter/setter methods as
+
+well as constructors.
+
+So here let's use @Setter Lombok annotation to generate a setter methods for these instance variables.
+
+Next, let's use @Getter Lombok annotation to generate a getter methods for these instance variables.
+
+Next, let's use @NoArgumentConstructor and @AllArgumentConstructor to create a constructor
+
+for this class.
+
+Now, we have created DepartmentDto class.
+
+Next, let's implement a service layer.
+
+So go to service package.
+
+Right click new one then to Java Class Select Interface.
+
+Let's use interface name as DepartmentService. Within a DepartmentService interface,
+
+Let's declare saveDepartment method.
+
+So here, just give return type of the method as DepartmentDto
+
+and let's use method name as
+
+savedepartment and let's pass DepartmentDto as a method parameter
+
+Perfect.
+
+Now, we have created DepartmentService interface and we have declared saveDepartment method.
+
+Next, let's create a class
+
+it implements DepartmentService interface and its methods.
+
+So go to service package and let's create a new package and let's give name as impl
+
+The impl stands for implementation and within impl package,
+
+let's create a new class and let's use class name as a DepartmentService
+
+Impl
+
+Impl stands for implementation and this class implements DepartmentService interface.
+
+And in order to implement this interface methods, what we can do is we can just mouse over on this class
+
+and here you will get option like implement methods.
+
+So go ahead and click on this implement methods and select the method that you want to implement and
+
+click on
+
+Okay.
+
+All right.
+
+Now, we have created DepartmentServiceImpl class it implements DepartmentService interface and
+
+its methods.
+
+Next, let's annotate this class with @Service annotation.
+
+Next, let's go ahead and let's inject the dependency.
+
+Well, we want to inject a DepartmentRepository dependency.
+
+We're going to use constructor basically dependency injection to inject the dependency.
+
+For that we have to create a constructor.
+
+So right click generate and then constructor and click on
+
+Okay.
+
+Now, we have created a parameterized constructor for this class.
+
+Well, if you can notice here, instead of creating this parameter constructor manually, we can use
+
+a Lombok annotation for example.
+
+Let me remove this constructor and let me annotate this class with @AllArgsConstructor annotation.
+
+So this annotation will automatically generate a parameterized constructor for this class.
+
+And here we don't have to use @Autowired annotation because whenever spring will find a spring bean
+
+it has a single parameter constructor.
+
+Then spring will automatically inject the dependency.
+
+Next, let's go and let's implement saveDepartment method.
+
+Well, within a saveDepartment method, we need to first convert a department DTO to department JPA
+
+entity.
+
+Here, let me write the comment
+
+Convert department DTO to department JPA entity.
+
+Well, we need to save department JPA entity object in the database
+
+Right.
+
+But here we have a DepartmentDto
+
+Let's convert DepartmentDto to department JPA entity.
+
+So let's create an instance of Department department = new department.
+
+And let's pass a value to the constructor.
+
+For example, departmentDto.
+
+getId() and then departmentDto.getDepartmentName() and then departmentDto.getDepartmentDescription
+
+and then departmentDto.getDepartmentCode()
+
+Okay, now we have department entity object in place.
+
+Next, let's call a DepartmentRepository.
+
+It has a save() method and then pass a department instance
+
+Perfect.
+
+Now, we have saved a department JPA an entity object into database and if we can see a save method
+
+returns a saved entity
+
+Right.
+
+So here's what we will do.
+
+We will declare Department entity object over here and let's call it as savedDepartment
+
+Okay.
+
+And let me convert this department object into DepartmentDto because saveDepartment method returns
+
+a DepartmentDto right.
+
+Let's have a DepartmentDto
+
+Object
+
+departmentDto
+
+= new
+
+DepartmentDto()
+
+And let's pass a value to the constructor savedDepartment.getId() and then savedDepartment.getDepartmentName()
+
+and then savedDepartment.getDepartmentDescription() and then
+
+savedDepartment
+
+.getDepartmentName() Perfect.
+
+Now, we have created savedDepartmentDto instance here.
+
+Let's return savedDepartmentDto instance
+
+Okay, perfect.
+
+Well, what we have done, basically we have converted department DTO object into department JPA entity
+
+object, and then we have stored this department JPA entity object into a database by using this save method.
+
+And then again, we have converted this savedDepartment JPA into object into Department DTO, and
+
+then we have returned that departmentDto
+
+object.
+
+Now, we have implemented saveDepartment method.
+
+Next, let's create REST API
+
+and call this saveDepartment method.
+
+So let's go to controller package.
+
+Right click on it
+
+New one then to Java class and let's use class name as DepartmentController and let's go ahead and let's
+
+annotate this controller class with @RestController annotation.
+
+Well, once we annotate this class with @RestController annotation then this class becomes a spring
+
+MVC controller.
+
+It will capable to handle HTTP GET request.
+
+Next, let's go ahead and let's use @RequestMapping annotation to define the base URL for this controller
+
+class and let give base URL something like api/departments.
+
+Well, instead of giving this same URL to each and every REST API that we define in this DepartmentController, we
+
+can simply use a @RequestMapping annotation to define this URL as a base.
+
+Now this will applicable to all the rest APIs within this DepartmentController.
+
+Next, let's inject the dependency.
+
+So here let me create instance variable private DepartmentService and then departmentService.
+
+We are going to use constructor based dependency injection to inject department service.
+
+Well, in order to use constructor based dependency injection, we have to create the constructor,
+
+right?
+
+So right click generate and then constructor.
+
+And then.
+
+Now we have created a constructor for this DepartmentController class.
+
+Well, instead of creating this constructor manually, we can use Lombok annotation.
+
+So let me remove this constructor.
+
+And here, let me add @AllArgsConstructor
+
+Lombok Annotation.
+
+Next, let's go ahead and let's build save department REST API.
+
+So here, let me write the comment.
+
+Build save department for Rest API
+
+Perfect.
+
+Well, building rest API is using Spring boot is very, very simple.
+
+We just have to create a method and then we make that method as a rest API by using spring provided
+
+annotations.
+
+So here, let me click Create a method first, just type public and then ResponseEntity as a return
+
+type of the method.
+
+So this is the generic class.
+
+We have to pass the type.
+
+So here we need to pass DepartmentDto as a type and let give method name as saveDepartment and let's
+
+pass DepartmentDto as a parameter to this method
+
+Perfect.
+
+Within this method, let's call a department service and
+
+it has saved department method and then let's pass DepartmentDto all right and save department method
+
+return's DepartmentDto
+
+So here, let me have a DepartmentDto and let's call it savedDepartment
+
+Perfect.
+
+And here let's have a return statement.
+
+Let's return the instance of ResponseEntity and let's pass a value to the constructor, let's
+
+say first value as a savedDepartment, second value as a HTTP status created
+
+Perfect.
+
+Now we have created saveDepartment method.
+
+It returns an instance of ResponseEntity.
+
+It contains savedDepartment and HTTP status.
+
+Next, let's go ahead and let's make this Java method as a rest API by using spring MVC annotations.
+
+So let's annotate this method with @PostMapping annotation.
+
+Well, this @PsotMapping annotation will map the incoming HTTP POST request to this particular method.
+
+Next, let's use one more annotation that is @RequestBody annotation.
+
+Well, @RequestBody annotation will extract the JSON from the request and it will convert that
+
+JSON into this java object.
+
+So @RequestBody annotation
+
+internally uses HTTP message converters to convert a JSON into a java object.
+
+In our case, it will convert a JSON into a department DTO Java object.
+
+Now, we have created Save Department Rest API.
+
+Next, let's go ahead and let's run our Spring boot application and let us test this save department
+
+REST API.
+
+So let me rerun the Spring boot application from here.
+
+Well, we will use Postman REST client to call this rest API.
+
+And if we can notice here, our spring boot application is up and running in an embedded tomcat server on
+
+port 8080.
+
+Next, let's open Postman client and let me create a new request in a Postman REST client.
+
+So this is the post request
+
+So let's select post HTTP method over here.
+
+And let's enter the request URL as http://localhost:8080/api/departments
+
+So this is the URL and we need to pass our data in a body.
+
+So go ahead and click on body tab here and then select raw
+
+and here just choose content type as JSON.
+
+And within a body, we need to pass the JSON, right?
+
+So just create a JSON.
+
+So let's give attribute name as departmentName and let give name as IT
+
+And next lets give JSON attribute as departmentDescription
+
+and lets give description something like information technology.
+
+Next, we also need to pass the department code as well.
+
+departmentCcode.
+
+And then let's give department code something like IT001.
+
+Well, if you go to our API here you can see we have passed departmentDto as a parameter to this method.
+
+Right.
+
+And @RequestBody annotation will extract this json from the request and it will convert this JSON into
+
+DepartmentDto java object.
+
+Hence the fields in our DepartmentDto class should match to this JSON attributes.
+
+So just make sure that whatever the JSON attribute name that you provide here in a JSON that attributes
+
+name should match with this DepartmentDto class field names.
+
+Otherwise you will get an exception.
+
+Next, let's go ahead and let's send this request.
+
+So go ahead and click on Send button over here.
+
+And there you can even see the Postman
+
+Client got the response with the saved department object in response.
+
+And if you can see the HTTP status for 201
+
+Created, it means that save department REST API is working as expected.
+
+Next, let's verify whether the department object is stored in a database or not.
+
+So let's go to MySQL workbench.
+
+And let me refresh the schemas and go to our database that is department_db and select
+
+this departments table, right click select rows
+
+and there we go.
+
+You can see department name IT
+
+department_description Information Technology Department_Code IT001. It means that the save department REST API
+
+that we have built is working as expected.
+
+Okay, great.
+
+In next lecture we'll build get department rest api.
+
+All right, great.
+
+I will see you in the next lecture.
+
+
+80. DepartmentService - Build Get Department REST API
+Hi everyone, welcome back.
+
+In this lecture, we will build get department REST API in a Department Service project.
+
+So let's go to IntelliJ idea and let's quickly build get Department Rest API.
+
+Well, let me go to the IntelliJ idea over here. Well, the controller layer depends on service layer.
+
+Hence let's first implement this service layer.
+
+So go to DepartmentService interface and within this interface let's declare the method.
+
+So let's give return type of the method as DepartmentDto and let's give a method
+
+name something like getDepartmentByCode.
+
+Okay, So each department have a unique code, so let's get the department by department code and let's
+
+pass a department code over here
+
+Okay, Perfect.
+
+Next, let's go ahead and let's implement this method in a DepartmentServiceImpl.
+
+class, so let me go to DepartmentServiceImpl class, and let's mouse
+
+Over on this class and here we have implement methods link.
+
+So go ahead and click on this link and select the method that you want to implement and click on
+
+Okay, Now we have get department by code method in place.
+
+Next, let's write one spring data JPA query method that will retrieve a department by department code.
+
+So let's go to DepartmentRepository and within a DepartmentRepository let's write a query method.
+
+So here, let me have a return type of the method as Department and let's give method name as findByDepartment
+
+Code.
+
+So this is the naming convention that typically we follow to create the query method using spring data
+
+JPA. Next, let's pass a parameter as a departmentCode and if you can notice the method name find by
+
+it will retrieve a entity by department code
+
+Great.
+
+Next, let's go back to DepartmentServiceImpl class and go to
+
+getDepartmentByCode method.
+
+And within this method, let's retrieve a department by department code.
+
+So let's have a department instance first and then let's call a DepartmentRepository.
+
+It has find by department code method and then pass code as a parameter.
+
+So code is nothing but a department code.
+
+So let me refactor this parameter.
+
+So let me call it as Department code.
+
+Okay.
+
+Perfect.
+
+Now we have department JPA entity in place.
+
+Next, let's convert this department JPA entity into
+
+departmentDto
+
+Well, here, let's have a DepartmentDto department = new
+
+DepartmentDto()
+
+And let's pass a value to the constructor department.getId() department.getDepartmentName()
+
+next department.getDepartmentDescription(), and then next department.getDepartmentCode().
+
+Now we have departmentDto
+
+Next, let's return this
+
+departmentDto
+
+Now we have implemented getDepartmentByCode method
+
+It returns a department by department code
+
+Okay
+
+Next,
+
+Let's go ahead and let's create a get department REST API, it internally
+
+call this getDepartmentByCode method.
+
+So go to DepartmentController over here and here
+
+Let me first write the comment build and get department rest API.
+
+Well, creating REST API is pretty simple.
+
+We just need to create a Java method and then we make that method as a REST API by using spring MVC
+
+annotations.
+
+So let's type public and let's give return type of the Method as a ResponseEntity and then pass
+
+DepartmentDto as a type and let give method name as getDepartment
+
+All right.
+
+And let's pass a departmentCode as a method argument
+
+Okay.
+
+Next, let's call a DepartmentService.
+
+It has get departmentByCode method and then pass departmentCode as a parameter.
+
+Well, this get department by code method returns departmentDto
+
+So let's get the result in a department DTO object.
+
+Okay.
+
+Next, let's return the instance of ResponseEntity.
+
+So return new and then ResponseEntity and then pass departmentDto in a constructor.
+
+Next, let's pass a HTTP status as a second parameter as http status
+
+Okay, perfect.
+
+Now we have created a get department method
+
+It returns ResponseEntity instance.
+
+It contains department information and HTTP status code.
+
+Next, let's make this method as a rest API by using Spring MVC annotations.
+
+So let's annotate this method with @GetMapping annotation.
+
+Well, @GetMapping annotation will map the incoming HTTP GET request to this particular method.
+
+Okay.
+
+Next, we need to pass the URI template variable
+
+pass the code.
+
+Right.
+
+So here, let's have a department-code.
+
+All right.
+
+So this is basically called URI template variable.
+
+And we need to bind the value of this URI template variable to this method argument.
+
+So in order to do that, let's use @PathVariable annotation and we need to pass this URI template variable
+
+name to this @PathVariable annotation here.
+
+Okay, perfect.
+
+Now we have built get department rest API.
+
+Next, let's go ahead and let's run the Spring boot application and let's test this get department rest
+
+API.
+
+Okay, so let me stop and rerun our Spring boot application.
+
+All right.
+
+Our Spring boot application is running in embedded Tomcat server on port 8080.
+
+Next, let's go to Postman Rest Client and let us test this at Department API.
+
+So let me go to Postman Client and let me create a new request and let me choose HTTP get method
+
+and let's enter the request URL http://localhost:8080/api/ departments and we need to pass the code
+
+So if you go to database, we have the department code IT001.
+
+So let's pass this department code over here, IT001 and go ahead and click on send button and
+
+there we go.
+
+You can able to see in a response. The Postman client got the department by department code and the the status
+
+score 200
+
+Okay.
+
+It means that we have successfully built get department rest API.
+
+Well, so far we have created two REST API's in a Department Service project.
+
+One is save department and another is get department.
+
+Well, to keep it simple, let's have these two REST API's in a Department Service microservice. In next
+
+lecture onwards
+
+we'll build a couple of REST API's in our employee service microservice as well, and then we'll
+
+see how to communicate
+
+employee service with Department Service.
+
+And next we'll see how to implement a service
+
+Registry and discovery.
+
+How to implement an API Gateway.
+
+How to implement an on spring cloud config server.
+
+Okay, we'll see a lot of stuff in upcoming lectures.
+
+To keep it simple, let's have these REST API's in the Department of Service.
+
+In next
+
+Upcoming lectures, we will build a couple of REST API's in the employee service
+
+Micro Service.
+
+Okay, great.
+
+I will see you in the next lecture.

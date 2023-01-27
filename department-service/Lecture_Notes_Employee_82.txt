@@ -1,0 +1,41 @@
+82. EmployeeService - Create Employee JPA Entity and Spring Data JPA Repository
+
+01-24T22:33:31.138-06:00  INFO 11314 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2023-01-24T22:33:31.147-06:00  INFO 11314 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-01-24T22:33:31.147-06:00  INFO 11314 --- [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-01-24T22:33:31.198-06:00  INFO 11314 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2023-01-24T22:33:31.200-06:00  INFO 11314 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1337 ms
+2023-01-24T22:33:31.332-06:00  INFO 11314 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-01-24T22:33:31.381-06:00  INFO 11314 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.6.Final
+2023-01-24T22:33:31.548-06:00  WARN 11314 --- [  restartedMain] org.hibernate.orm.deprecation            : HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2023-01-24T22:33:31.653-06:00  INFO 11314 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2023-01-24T22:33:31.879-06:00  INFO 11314 --- [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2b119c16
+2023-01-24T22:33:31.881-06:00  INFO 11314 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2023-01-24T22:33:31.923-06:00  INFO 11314 --- [  restartedMain] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+Hibernate:
+
+    create table employees (
+       id bigint not null auto_increment,
+        email varchar(255) not null,
+        firstName varchar(255),
+        lastName varchar(255),
+        primary key (id)
+    ) engine=InnoDB
+Hibernate:
+
+    alter table employees
+       drop index UK_j9xgmd0ya5jmus09o0b8pqrpb
+Hibernate:
+
+    alter table employees
+       add constraint UK_j9xgmd0ya5jmus09o0b8pqrpb unique (email)
+2023-01-24T22:33:32.523-06:00  INFO 11314 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-01-24T22:33:32.529-06:00  INFO 11314 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-01-24T22:33:32.562-06:00  WARN 11314 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-01-24T22:33:32.998-06:00  INFO 11314 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2023-01-24T22:33:33.040-06:00  INFO 11314 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2023-01-24T22:33:33.050-06:00  INFO 11314 --- [  restartedMain] n.j.e.EmployeeServiceApplication         : Started EmployeeServiceApplication in 3.911 seconds (process running for 4.39)
+
+
+83. EmployeeService - Build Save Employee REST API
+
