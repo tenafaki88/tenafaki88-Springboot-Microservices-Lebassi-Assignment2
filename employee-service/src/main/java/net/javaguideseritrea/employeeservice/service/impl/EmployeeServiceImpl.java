@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.javaguideseritrea.employeeservice.dto.EmployeeDto;
 import net.javaguideseritrea.employeeservice.entity.Employee;
 import net.javaguideseritrea.employeeservice.exception.EmployeeEmailAlreadyExistsException;
+import net.javaguideseritrea.employeeservice.exception.EmployeeIdAlreadyExistsException;
 import net.javaguideseritrea.employeeservice.mapper.EmployeeMapper;
 import net.javaguideseritrea.employeeservice.repository.EmployeeRepository;
 import net.javaguideseritrea.employeeservice.service.EmployeeService;
@@ -35,6 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(optionalEmployee.isPresent()) {
             System.out.println("Email with " + '"' + employeeDto.getEmail() +'"'  + " already exists for an Employee");
             throw new EmployeeEmailAlreadyExistsException("Email with " +  employeeDto.getEmail() + " already exists for an Employee");
+
         }
 
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto);
@@ -58,7 +60,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto getEmployeeById(Long employeeId) {
-        
+
+        Optional<Employee> optionalEmployeeById = employeeRepository.findById(employeeId);
+        if(optionalEmployeeById.isPresent()) {
+            System.out.println("Employee Id  " + '"' + employeeId +'"'  + " already exists for an Employee");
+            throw new EmployeeIdAlreadyExistsException("Employee Id  " + '"' + employeeId +'"'  + " already exists for an Employee");
+
+        }
+
         Employee employee = employeeRepository.findById(employeeId).get();
         
 //        EmployeeDto employeeDto = new EmployeeDto(

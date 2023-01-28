@@ -68,6 +68,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 //                department.getDepartmentCode()
 //        );
 
+
+        if(department.isPresent()) {
+            System.out.println("DepartmentCode with " + '"' + departmentCode +'"'  + " already exists for a Department");
+            throw new DepartmentCodeAlreadyExistsException("DepartmentCode with " +  departmentCode + " already exists for a Department");
+        }
+
+
         DepartmentDto departmentDto = DepartmentMapper.mapToDepartmentDto(department.get());
         return departmentDto;
     }

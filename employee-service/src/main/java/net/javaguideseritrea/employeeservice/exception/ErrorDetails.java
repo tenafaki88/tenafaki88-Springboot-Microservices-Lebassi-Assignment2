@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorDetails {
+public class ErrorDetails {      //  ErrorDetails class to hold the custom error response
 
     private LocalDateTime timeStamp;    // This is the time when the exception occurred.
 
